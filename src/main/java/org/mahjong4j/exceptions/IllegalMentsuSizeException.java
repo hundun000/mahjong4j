@@ -1,4 +1,4 @@
-package org.mahjong4j;
+package org.mahjong4j.exceptions;
 
 import org.mahjong4j.hands.Mentsu;
 

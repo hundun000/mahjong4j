@@ -1,9 +1,9 @@
 package org.mahjong4j.hands;
 
 import org.junit.Test;
-import org.mahjong4j.HandsOverFlowException;
-import org.mahjong4j.IllegalShuntsuIdentifierException;
-import org.mahjong4j.MahjongTileOverFlowException;
+import org.mahjong4j.exceptions.IllegalShuntsuIdentifierException;
+import org.mahjong4j.exceptions.MahjongTileOverFlowException;
+import org.mahjong4j.exceptions.HandsOverFlowException;
 import org.mahjong4j.tile.Tile;
 
 import static org.junit.Assert.assertEquals;

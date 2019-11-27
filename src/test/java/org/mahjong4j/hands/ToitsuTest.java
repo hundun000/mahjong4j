@@ -3,7 +3,7 @@ package org.mahjong4j.hands;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mahjong4j.MahjongTileOverFlowException;
+import org.mahjong4j.exceptions.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 
 import java.util.ArrayList;

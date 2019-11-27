@@ -1,6 +1,7 @@
 package org.mahjong4j.hands;
 
-import org.mahjong4j.IllegalMentsuSizeException;
+
+import org.mahjong4j.exceptions.IllegalMentsuSizeException;
 import org.mahjong4j.tile.Tile;
 
 import java.util.ArrayList;

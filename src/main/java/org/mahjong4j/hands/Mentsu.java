@@ -1,5 +1,7 @@
 package org.mahjong4j.hands;
 
+import java.util.List;
+
 import org.mahjong4j.tile.Tile;
 
 /**
@@ -59,4 +61,6 @@ public abstract class Mentsu {
      * @return 各面子での加算符
      */
     public abstract int getFu();
+    
+    public abstract List<Tile> getTiles();
 }

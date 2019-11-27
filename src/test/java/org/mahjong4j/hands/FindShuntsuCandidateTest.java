@@ -1,9 +1,9 @@
 package org.mahjong4j.hands;
 
 import org.junit.Test;
-import org.mahjong4j.HandsOverFlowException;
-import org.mahjong4j.IllegalMentsuSizeException;
-import org.mahjong4j.MahjongTileOverFlowException;
+import org.mahjong4j.exceptions.HandsOverFlowException;
+import org.mahjong4j.exceptions.IllegalMentsuSizeException;
+import org.mahjong4j.exceptions.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 
 /**

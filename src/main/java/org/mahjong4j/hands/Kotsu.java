@@ -1,5 +1,8 @@
 package org.mahjong4j.hands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mahjong4j.tile.Tile;
 
 /**
@@ -81,5 +84,14 @@ public class Kotsu extends Mentsu {
         result = 31 * result + (isMentsu ? 1 : 0);
         result = 31 * result + (isOpen ? 1 : 0);
         return result;
+    }
+    
+    @Override
+    public List<Tile> getTiles() {
+        List<Tile> tiles = new ArrayList<>(3);
+        tiles.add(identifierTile);
+        tiles.add(identifierTile);
+        tiles.add(identifierTile);
+        return tiles;
     }
 }

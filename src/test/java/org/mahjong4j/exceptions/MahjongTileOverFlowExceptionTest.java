@@ -1,7 +1,7 @@
 package org.mahjong4j.exceptions;
 
 import org.junit.Test;
-import org.mahjong4j.MahjongTileOverFlowException;
+
 import org.mahjong4j.Player;
 import org.mahjong4j.hands.Hands;
 import org.mahjong4j.hands.Kotsu;

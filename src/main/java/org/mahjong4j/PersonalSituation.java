@@ -30,6 +30,14 @@ public class PersonalSituation {
         this.jikaze = jikaze;
         isParent = (jikaze == TON);
     }
+    
+    /**
+     * A practical new round.
+     * @param jikaze
+     */
+    public PersonalSituation(Tile jikaze) {
+        this(false, false, false, false, false, false, jikaze);
+    }
 
     public boolean isParent() {
         return isParent;

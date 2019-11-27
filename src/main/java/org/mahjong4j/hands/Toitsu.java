@@ -1,6 +1,7 @@
 package org.mahjong4j.hands;
 
-import org.mahjong4j.MahjongTileOverFlowException;
+
+import org.mahjong4j.exceptions.MahjongTileOverFlowException;
 import org.mahjong4j.tile.Tile;
 
 import java.util.ArrayList;
@@ -83,5 +84,13 @@ public class Toitsu extends Mentsu {
         int result = identifierTile != null ? identifierTile.hashCode() : 0;
         result = 31 * result + (isMentsu ? 1 : 0);
         return result;
+    }
+    
+    @Override
+    public List<Tile> getTiles() {
+        List<Tile> tiles = new ArrayList<>(2);
+        tiles.add(identifierTile);
+        tiles.add(identifierTile);
+        return null;
     }
 }

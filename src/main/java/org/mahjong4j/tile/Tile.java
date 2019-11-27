@@ -45,6 +45,8 @@ public enum Tile {
     HAT(32, SANGEN, 0),//発
     CHN(33, SANGEN, 0);//中
 
+    public static final int NUM_EACH_KIND = 4;
+    
     private int code;
     private TileType type;
     private int number;
@@ -73,5 +75,13 @@ public enum Tile {
 
     public boolean isYaochu() {
         return number == 0 || number == 1 || number == 9;
+    }
+    
+    public Tile getNextTile() {
+        return valueOf(code + 1);
+    }
+    
+    public Tile getLastTile() {
+        return valueOf(code - 1);
     }
 }

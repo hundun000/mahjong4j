@@ -2,6 +2,8 @@ package org.mahjong4j;
 
 import org.mahjong4j.tile.Tile;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +22,15 @@ public class GeneralSituation {
         this.bakaze = bakaze;
         this.dora = dora;
         this.uradora = uradora;
+    }
+    
+    /**
+     * A practical new round.
+     * @param uraDora 
+     * @param dora 
+     */
+    public GeneralSituation(Tile bakaze, Tile dora, Tile uraDora) {
+        this(true, false, bakaze, new ArrayList<>(Arrays.asList(dora)), new ArrayList<>(Arrays.asList(uraDora)));
     }
 
     public GeneralSituation() {
