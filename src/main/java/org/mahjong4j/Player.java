@@ -42,9 +42,9 @@ public class Player {
     // 点数
     private Score score = SCORE0;
 
-    private Hands hands;
-    private GeneralSituation generalSituation;
-    private PersonalSituation personalSituation;
+    protected Hands hands;
+    protected GeneralSituation generalSituation;
+    protected PersonalSituation personalSituation;
 
 
     public Player(Hands hands) {
