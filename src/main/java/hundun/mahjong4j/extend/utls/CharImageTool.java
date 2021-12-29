@@ -78,13 +78,13 @@ public class CharImageTool {
 		    builder.append("|", "|");
 			break;
 		case TEN_PAI:
-		    builder.append("!|", " |");
+		    builder.append("听|", "牌|");
 			break;
 		case HURI_TEN:
-		    builder.append(" |", "x|");
+		    builder.append("振|", "听|");
 			break;
 		case DORA:
-		    builder.append("*|", " |");
+		    builder.append("DO|", "RA|");
             break;
 		default:
 			break;
@@ -161,22 +161,27 @@ public class CharImageTool {
     	stringBuilder.append(tileWallAndDorasToCharImage(board.getTileWall(), board.getGeneralSituation().getDora()));
     	stringBuilder.append("=======================================\n");
     	for (int i = 0; i < MahjongBoard.NUM_PLAYERS; i++) {
-    		GamePlayer player = board.getPlayer(i);
-    		TileRiver tileRiver = player.getTileRiver();
-    		stringBuilder.append(meiPaiCandidatesToCharImage(player.getChiCandidates(), MeiPaiType.CHI));
-    		stringBuilder.append(meiPaiCandidatesToCharImage(player.getPonCandidates(), MeiPaiType.PON));
-    		stringBuilder.append(meiPaiCandidatesToCharImage(player.getMinKanCandidates(), MeiPaiType.MIN_KAN));
-    		stringBuilder.append(meiPaiCandidatesToCharImage(player.getAnKanCandidates(), MeiPaiType.AN_KAN));
-    		stringBuilder.append(handsToCharImage(player.getHands()));
-    		stringBuilder.append(reachStickToCharImage(player.getPersonalSituation().isReach()));
-    		stringBuilder.append(tileRiverToCharImage(tileRiver));
-    		stringBuilder.append(WinCaseToCharImage(player.getWinCase()));
-    		stringBuilder.append(discardAdvicesToCharImage(player.getDiscardAdvices(), player.isCanReach()));
-    		stringBuilder.append(tenpaiCasesToCharImage(player.getTenpaiCases(), player.isHuriten()));
+    		GamePlayer gamePlayer = board.getPlayer(i);
+    		stringBuilderAppendGamePlayerToCharImage(stringBuilder, gamePlayer, false);
     		stringBuilder.append("--------------------------------------\n");
     	}
     	return stringBuilder.toString();
     }
+	
+	public static void stringBuilderAppendGamePlayerToCharImage(StringBuilder stringBuilder, GamePlayer gamePlayer, boolean onlyNotFuriten) {
+	    TileRiver tileRiver = gamePlayer.getTileRiver();
+        stringBuilder.append(meiPaiCandidatesToCharImage(gamePlayer.getChiCandidates(), MeiPaiType.CHI));
+        stringBuilder.append(meiPaiCandidatesToCharImage(gamePlayer.getPonCandidates(), MeiPaiType.PON));
+        stringBuilder.append(meiPaiCandidatesToCharImage(gamePlayer.getMinKanCandidates(), MeiPaiType.MIN_KAN));
+        stringBuilder.append(meiPaiCandidatesToCharImage(gamePlayer.getAnKanCandidates(), MeiPaiType.AN_KAN));
+        stringBuilder.append(handsToCharImage(gamePlayer.getHands()));
+        stringBuilder.append(reachStickToCharImage(gamePlayer.getPersonalSituation().isReach()));
+        stringBuilder.append(tileRiverToCharImage(tileRiver));
+        stringBuilder.append(WinCaseToCharImage(gamePlayer.getWinCase()));
+        stringBuilder.append(discardAdvicesToCharImage(gamePlayer.getDiscardAdvices(), gamePlayer.isCanReach(), onlyNotFuriten));
+        stringBuilder.append(tenpaiCasesToCharImage(gamePlayer.getTenpaiCases(), gamePlayer.isHuriten()));
+        
+	}
 	
 	private static String tileWallAndDorasToCharImage(TileWall tileWall, List<Tile> doras) {
 	    StringBuilder stringBuilder = new StringBuilder();
@@ -189,7 +194,7 @@ public class CharImageTool {
 	    appendOneTile(null, builder);
         
 	    builder.append("|?|", "|?|");
-        builder.append("", "X").append("", tileWall.size());
+        builder.append(" ", "X").append("", tileWall.size());
         
         stringBuilder.append(builder.mergeAsLines()).append("\n");
         return stringBuilder.toString();
@@ -210,7 +215,7 @@ public class CharImageTool {
 		if (furiten) {
 			stringBuilder.append("[!!!---furiten---!!!:\n");
 		} else {
-			stringBuilder.append("[tenpai:\n");
+			stringBuilder.append("tenpai:[\n");
 		}
 		for (TenpaiCase tenpaiCase : tenpaiCases) {
 		    MultiLinesStringBuilder builder = new MultiLinesStringBuilder(2);
@@ -223,20 +228,23 @@ public class CharImageTool {
 		return stringBuilder.toString();
 	}
 	
-	public static String discardAdvicesToCharImage(List<DiscardAdvice> discardAdvices, boolean canReach) {
+	public static String discardAdvicesToCharImage(List<DiscardAdvice> discardAdvices, boolean canReach, boolean onlyNotFuriten) {
 		if (discardAdvices.isEmpty()) {
 			return "";
 		}
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("[advices:");
 		if (canReach) {
-		    stringBuilder.append(REACH_STICK).append("?");
-		}
+            stringBuilder.append("可以立直").append(REACH_STICK).append("\n");
+        }
+		stringBuilder.append("舍牌建议:[");
 		stringBuilder.append("\n");
 		for (DiscardAdvice discardAdvice : discardAdvices) {
+		    boolean furiten = discardAdvice.isFuriten();
+            if (furiten && onlyNotFuriten) {
+                continue;
+            }
 			Tile discard = discardAdvice.getDiscardTile();
 			List<Tile> tenTiles = discardAdvice.getTenpaiList();
-			boolean furiten = discardAdvice.isFuriten();
 			MultiLinesStringBuilder builder = new MultiLinesStringBuilder(2);
 			appendTileLeftBorder(builder);
 			appendOneTile(discard, builder);

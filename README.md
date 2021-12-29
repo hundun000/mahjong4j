@@ -20,11 +20,15 @@
 - 其他玩家碰牌/明杠/荣胡
 - ……
 
-## 游戏中的玩家
+## 游戏中的玩家 [GamePlayer类](https://github.com/hundun000/mahjong4j/blob/feature-for-self/src/main/java/hundun/mahjong4j/extend/game/GamePlayer.java)
 
 所有属于“游戏中的玩家”的组件，由游戏中的玩家类管理：Player逻辑，游戏中的玩家状态，是否振听，累计分数……
 
-### 游戏中的玩家状态状态
+### GamePlayer成员：状态
+
+[状态枚举](https://github.com/hundun000/mahjong4j/blob/feature-for-self/src/main/java/hundun/mahjong4j/extend/game/PlayerState.java)
+
+当接收到其他玩家出牌事件时，GamePlayer计算自身状态变化（其他玩家出牌事件，可能使得状态从`闲置`变为`待选择是否鸣牌`）。
 
 用于限制所以操作都要符合麻将规则：
 
@@ -33,19 +37,45 @@
 - 立直状态下不可换听
 - ……
 
-## 听牌建议类
+### GamePlayer成员：牌河
 
-## 舍牌建议类
+管理该玩家的牌河。约束打出的牌必被进入牌河，等。
 
-一副可以听牌的手牌（14张），对应若干`舍牌建议类`。即打出某张牌时，听哪些牌，是否振听，分别构成哪些役。
+### GamePlayer成员：鸣牌建议
 
-## 听牌类
+当接收到其他玩家出牌事件时，GamePlayer计算自身可行的鸣牌建议。可读取用于前端显示。
 
-一副正在听牌的手牌（13张），对应若干`听牌类`。即听哪些牌，分别构成哪些役。
+### GamePlayer成员：行动建议
 
-## 胡牌结果类
+[行动枚举](https://github.com/hundun000/mahjong4j/blob/feature-for-self/src/main/java/hundun/mahjong4j/extend/game/PlayerActionAdvice.java)
 
-一个检查确实胡牌的手牌，对应一个`胡牌结果`。即构成哪些役。
+当接收到各类事件时，GamePlayer计算自身可行的行动（例如当鸣牌建议产生后，则行动建议中会存在鸣牌行动；当自身胡牌可行性产生后，则行动建议中会存在胡牌行动；）。可读取用于前端显示。
+
+## GamePlayer成员：舍牌建议
+
+[DiscardAdvice类](https://github.com/hundun000/mahjong4j/blob/feature-for-self/src/main/java/hundun/mahjong4j/extend/game/DiscardAdvice.java)
+
+接收到自身摸牌事件时，GamePlayer计算舍牌建议。
+
+一副可以听牌的手牌（14张），对应若干`DiscardAdvice实例`。即打出某张牌时，听哪些牌，是否振听，分别构成哪些役。
+
+若此时还属于可以立直的情况，则`GamePlayer成员：canReach`为true；若此时还属于振听的情况，则`GamePlayer成员：huriten`为true；
+
+## GamePlayer成员：听牌情况 
+
+[TenpaiCase类](https://github.com/hundun000/mahjong4j/blob/feature-for-self/src/main/java/hundun/mahjong4j/extend/game/TenpaiCase.java)
+
+接收到自身出牌事件时，GamePlayer计算听牌情况。
+
+一副正在听牌的手牌（13张），对应若干`TenpaiCase实例`。即听哪些牌，分别构成哪些役。
+
+## GamePlayer成员：胡牌建议
+
+[WinCase类](https://github.com/hundun000/mahjong4j/blob/feature-for-self/src/main/java/hundun/mahjong4j/extend/game/WinCase.java)
+
+当接收到各类事件时，GamePlayer计算自身是否可以胡牌（包括自摸和荣胡）。
+
+一个检查确实可以胡牌的手牌（14张），对应一个`WinCase实例`。即构成哪些役。
 
 ## 可视化工具
 

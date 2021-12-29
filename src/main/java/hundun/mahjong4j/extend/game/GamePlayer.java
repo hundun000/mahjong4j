@@ -47,7 +47,7 @@ public class GamePlayer {
 	
 	private final SuperPlayer player;
 	
-	private PlayerState state = PlayerState.SLEEP;
+	private PlayerState state;
 	
 	private TileRiver tileRiver = new TileRiver();
 	/**
@@ -87,6 +87,7 @@ public class GamePlayer {
 	public GamePlayer(SuperPlayer player) {
 	    this.player = player;
 		this.score = 25000;
+		this.state = PlayerState.SLEEP;
 	}
 
 	public GamePlayer(SuperHands hands, GeneralSituation generalSituation, PersonalSituation personalSituation) throws Mahjong4jException {
@@ -398,25 +399,29 @@ public class GamePlayer {
         this.genActionAvices();
     }
     
+    
+    public static void staticGenTenpaiCases(List<TenpaiCase> tenpaiCases, SuperPlayer player) throws Mahjong4jException {
+        tenpaiCases.clear();
+
+        List<Tile> tenpaiList = player.getHands().getTenpaiList();
+        for (Tile tenpai : tenpaiList) {
+            SuperPlayer testPlayer;
+            // 遍历时可能尝试打出没有的牌
+            testPlayer = player.deepClone();
+            testPlayer.getHands().drawToLastThenFindMentsu(tenpai);
+            testPlayer.calculate();
+
+            if (testPlayer.getScore() != SCORE0) {
+                TenpaiCase tenpaiCase = new TenpaiCase(tenpai, testPlayer);
+                tenpaiCases.add(tenpaiCase);
+            }
+        }
+    }
+    
 	private void genTenpaiCases() throws Mahjong4jException {
-		tenpaiCases.clear();
-
-		
-		List<Tile> tenpaiList = player.getHands().getTenpaiList();
-		for (Tile tenpai : tenpaiList) {
-		    SuperPlayer testPlayer;
-			// 遍历时可能尝试打出没有的牌
-			testPlayer = player.deepClone();
-			testPlayer.getHands().drawToLastThenFindMentsu(tenpai);
-			testPlayer.calculate();
-
-			if (testPlayer.getScore() != SCORE0) {
-				TenpaiCase tenpaiCase = new TenpaiCase(tenpai, testPlayer);
-				tenpaiCases.add(tenpaiCase);
-			}
-		}
-		
-		huriten = calHuritenByRiver(tenpaiList, tileRiver);
+		staticGenTenpaiCases(tenpaiCases, player);
+	    
+		huriten = calHuritenByRiver(player.getHands().getTenpaiList(), tileRiver);
 	}
 
     
